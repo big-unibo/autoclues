@@ -1,0 +1,36 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.177.0/containers/docker-existing-dockerfile
+{
+	"name": "Dev",
+	// Sets the run context to one level up instead of the .devcontainer folder.
+	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	"context": "..",
+	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	"dockerFile": "../Dockerfile",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home,type=bind",
+	"workspaceFolder": "/home",
+	// "runArgs": [
+	// 	"--net",
+	// 	"host",
+	// 	"-e",
+	// 	"DISPLAY=env:DISPLAY",
+	// 	"-v",
+	// 	"/tmp/.X11-unix:/tmp/.X11-unix"
+	// ],
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"files.eol": "\n",
+		"terminal.integrated.defaultProfile.linux": "bash",
+		"python.formatting.provider": "black",
+		"editor.formatOnSave": true
+	},
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"ms-python.python",
+		"ms-python.black-formatter",
+		"eamodio.gitlens",
+		"shardulm94.trailing-spaces",
+		"vscode-icons-team.vscode-icons",
+		"janisdd.vscode-edit-csv"
+	]
+}

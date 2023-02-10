@@ -1,0 +1,80 @@
+{
+    "StandardScaler": {},
+    "MinMaxScaler": {},
+    "RobustScaler": {
+        "quantile_range": [
+            [
+                25.0,
+                75.0
+            ],
+            [
+                10.0,
+                90.0
+            ],
+            [
+                5.0,
+                95.0
+            ]
+        ],
+        "with_centering": [
+            true,
+            false
+        ],
+        "with_scaling": [
+            true,
+            false
+        ]
+    },
+    "LocalOutlierDetector": {
+        "n_neighbors": [
+            50,
+            100,
+            200
+        ]
+    },
+    "IsolationOutlierDetector": {
+        "n_estimators": [
+            50,
+            100,
+            200
+        ]
+    },
+    "GenericSPEC": {},
+    "WKMeans": {
+        "beta": [
+            -7,
+            0,
+            7
+        ]
+    },
+    "AgglomerativeClustering": {
+        "n_clusters": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+        ]
+    },
+    "KMeans": {
+        "n_clusters": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+        ]
+    }
+}

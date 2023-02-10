@@ -1,0 +1,24 @@
+general:
+  dataset: synthetic
+  seed: 42
+  space: toy
+optimizations:
+  smbo:
+    metric: sil
+    budget_kind: time
+    budget: 100
+diversifications:
+  mmr:
+    num_results: 3
+    method: mmr
+    lambda: 0.7
+    criterion: features_set
+    metric: jaccard
+  exhaustive:
+    num_results: 3
+    method: exhaustive
+    lambda: 0.7
+    criterion: features_set
+    metric: jaccard
+runs:
+  - smbo_mmr
