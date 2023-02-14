@@ -49,7 +49,7 @@ The instructions are valid for Unix-like systems (e.g., Linux Ubuntu, MacOS) and
 Open the terminal and type:
 
 ```
-docker run -it --volume ${PWD}/autoclues :/home/autoclues ghcr.io/big-unibo/autoclues:1.0.0
+docker run -it --volume ${PWD}/autoclues:/home/autoclues ghcr.io/big-unibo/autoclues:1.0.0
 ```
 
 This creates and mounts the folder ```autoclues``` into the container (which is populated with the code and the necessary scenarios), and run the toy example.
