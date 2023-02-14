@@ -1,11 +1,6 @@
 # AutoClues: exploring clustering pipelines via AutoML and diversification
 
-This is the repository for the paper *AutoClues: exploring clustering pipelines via AutoML and diversification* submitted to EDBT/ICDT 2024.
-To implement the optimization process, we departed from the code provided in [2] (GitHub repository: [https://github.com/aquemy/DPSO_experiments](https://github.com/aquemy/DPSO_experiments)).
-
-[1] A. Quemy, "Data Pipeline Selection and Optimization." DOLAP. 2019. http://ceur-ws.org/Vol-2324/Paper19-AQuemy.pdf
-
-# Requirements
+## Requirements
 
 In order to reproduce the experiments in any operating systems, Docker is required: [https://www.docker.com/](https://www.docker.com/).
 Install it, and be sure that it is running when trying to reproduce the experiments.
@@ -46,7 +41,7 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
-# Reproducing the experiments
+## Reproducing the experiments
 
 The instructions are valid for Unix-like systems (e.g., Linux Ubuntu, MacOS) and Windows (if using PowerShell).
 
@@ -60,7 +55,7 @@ docker run -it --volume ${PWD}/autoclues :/home/autoclues ghcr.io/big-unibo/auto
 This creates and mounts the folder ```autoclues``` into the container (which is populated with the code and the necessary scenarios), and run the toy example.
 
 
-# Customize the experiments
+## Customize the experiments
 
 The structure of the project is the follow:
 
