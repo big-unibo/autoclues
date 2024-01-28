@@ -1,0 +1,24 @@
+diversifications:
+  exhaustive:
+    criterion: clustering
+    lambda: 0.5
+    method: mmr
+    metric: ami
+    num_results: 3
+  mmr:
+    criterion: clustering
+    lambda: 0.5
+    method: mmr
+    metric: ami
+    num_results: 3
+general:
+  dataset: syn3
+  seed: 42
+  space: extended
+optimizations:
+  smbo:
+    budget: 7200
+    budget_kind: time
+    metric: sil-tsne
+runs:
+- smbo_mmr

@@ -66,7 +66,7 @@ class LFSBSS(BaseEstimator, ClusterMixin):
 
         n_samples, n_features = x.shape
         # Build initial clustering
-        k_means = KMeans(n_clusters=self.clusters)
+        k_means = KMeans(n_clusters=self.clusters, random_state=42)
         features = [set(range(n_features)) for _ in range(self.clusters)]
         clusters, means = self._find_clusters_and_means(k_means, x)
 

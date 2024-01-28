@@ -1,6 +1,11 @@
-# AutoClues: exploring clustering pipelines via AutoML and diversification
+# AutoClues: Exploring Clustering Pipelines via AutoML and Diversification
 
-## Requirements
+This is the repository for the paper AutoClues: Exploring Clustering Pipelines via AutoML and Diversification* submitted to PAKDD 2024.
+To implement the optimization process, we departed from the code provided in [2] (GitHub repository: [https://github.com/aquemy/DPSO_experiments](https://github.com/aquemy/DPSO_experiments)).
+
+[1] A. Quemy, "Data Pipeline Selection and Optimization." DOLAP. 2019. http://ceur-ws.org/Vol-2324/Paper19-AQuemy.pdf
+
+# Requirements
 
 In order to reproduce the experiments in any operating systems, Docker is required: [https://www.docker.com/](https://www.docker.com/).
 Install it, and be sure that it is running when trying to reproduce the experiments.
@@ -41,7 +46,7 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
-## Reproducing the experiments
+# Reproducing the experiments
 
 The instructions are valid for Unix-like systems (e.g., Linux Ubuntu, MacOS) and Windows (if using PowerShell).
 
@@ -49,13 +54,13 @@ The instructions are valid for Unix-like systems (e.g., Linux Ubuntu, MacOS) and
 Open the terminal and type:
 
 ```
-docker run -it --volume ${PWD}/autoclues:/home/autoclues ghcr.io/big-unibo/autoclues:1.0.0
+docker run -it --volume ${PWD}/autoclues:/home/autoclues ghcr.io/anonymous-pakdd-24/autoclues:1.0.0
 ```
 
 This creates and mounts the folder ```autoclues``` into the container (which is populated with the code and the necessary scenarios), and run the toy example.
 
 
-## Customize the experiments
+# Customize the experiments
 
 The structure of the project is the follow:
 
@@ -80,40 +85,28 @@ You can easily write your own scenario based on the following template:
 
 ```
 general:
-  dataset: iris
+  dataset: syn0
   seed: 42
   space: extended
 optimizations:
   smbo:
-    metric: sil
+    budget: 7200
     budget_kind: time
-    budget: 200
-  exhaustive:
-    metric: sil
-    budget_kind: time
-    budget: inf
+    metric: sil-tsne
 diversifications:
   mmr:
-    num_results: 3
+    criterion: clustering
+    lambda: 0.5
     method: mmr
-    lambda: 0.7
-    criterion: features_set
-    metric: jaccard
-  exhaustive:
+    metric: ami
     num_results: 3
-    method: exhaustive
-    lambda: 0.7
-    criterion: features_set
-    metric: jaccard
 runs:
-  - smbo_mmr
-  - smbo_exhaustive
-  - exhaustive_mmr
-  - exhaustive_exhaustive
+- smbo_mmr
+
 ```
 
-Section by section:
-- in ```general```, you can modify the fields ```dataset```, ```seed``` (as an int), ```space``` (between ```toy``` and ```extended```, which are the possible spaces in ```resources``);
-- in ```optimizations```, you can drop one of the two optimization options (```smbo```, ```exhaustive```) and modify the fields in it;
-- in ```diversifications```, you can drop one of the two optimization options (```mmr```, ```exhaustive```) and modify the fields in it (```lambda``` corresponds to ```beta``` of the paper);
-- in ```runs```, you can drop the combinations you don't like.
+
+In particular, you can modify the following sections.
+- In ```general```: you can modify field ```dataset``` by choosing among the ones in the folder ```dataset```.
+- in ```optimizations```: you can modify the field ```budget``` by typing the time (in seconds) given to the optimzation, and the field ```metric``` by choosing among [```sil```, ```sil-tsne```, ```dbi```, ```dbi-tsne```]
+- in ```diversifications```, you can modify the ```lambda``` factor.

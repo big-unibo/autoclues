@@ -1,19 +1,31 @@
 import os
 
-#from imblearn.under_sampling import NearMiss, CondensedNearestNeighbour
-#from imblearn.over_sampling import SMOTE
+# from imblearn.under_sampling import NearMiss, CondensedNearestNeighbour
+# from imblearn.over_sampling import SMOTE
 from sklearn.decomposition import PCA
 from sklearn.feature_selection import SelectKBest
 from sklearn.impute import SimpleImputer
 from sklearn.impute._iterative import IterativeImputer
 from sklearn.pipeline import FeatureUnion
-from sklearn.preprocessing import RobustScaler, StandardScaler, MinMaxScaler, PowerTransformer, KBinsDiscretizer, \
-    Binarizer, OneHotEncoder, OrdinalEncoder
+from sklearn.preprocessing import (
+    RobustScaler,
+    StandardScaler,
+    MinMaxScaler,
+    PowerTransformer,
+    KBinsDiscretizer,
+    Binarizer,
+    OneHotEncoder,
+    OrdinalEncoder,
+)
 from sklearn.neighbors import LocalOutlierFactor
 
 from .utils import generate_domain_space
 
-from pipeline.outlier_detectors import LocalOutlierDetector, IsolationOutlierDetector#, SGDOutlierDetector
+from pipeline.outlier_detectors import (
+    LocalOutlierDetector,
+    IsolationOutlierDetector,
+)  # , SGDOutlierDetector
+from pipeline.feature_selectors import PearsonThreshold
 from pipeline import space
 from fsfc.generic import GenericSPEC, NormalizedCut, WKMeans
 import pandas as pd
@@ -24,9 +36,20 @@ class PrototypeSingleton:
     __instance = None
 
     POOL = {
-        "normalize": [None, StandardScaler(), MinMaxScaler(), RobustScaler(), PowerTransformer()],
+        "normalize": [
+            None,
+            StandardScaler(),
+            MinMaxScaler(),
+            RobustScaler(),
+            PowerTransformer(),
+        ],
         "outlier": [None, LocalOutlierDetector(), IsolationOutlierDetector()],
-        "features": [None, GenericSPEC(k=3), NormalizedCut(k=3), WKMeans(k=3, beta=0)]
+        "features": [
+            None,
+            PearsonThreshold(threshold=0.5),
+            GenericSPEC(k=2),
+            WKMeans(k=2, beta=0),
+        ],
     }
 
     features_names = []
@@ -35,6 +58,7 @@ class PrototypeSingleton:
     parts = []
     X = []
     y = []
+    index = []
     original_numerical_features = []
     original_categorical_features = []
     current_numerical_features = []
@@ -42,13 +66,13 @@ class PrototypeSingleton:
 
     @staticmethod
     def getInstance():
-        """ Static access method. """
+        """Static access method."""
         if PrototypeSingleton.__instance == None:
             PrototypeSingleton()
         return PrototypeSingleton.__instance
 
     def __init__(self):
-        """ Virtually private constructor. """
+        """Virtually private constructor."""
         if PrototypeSingleton.__instance != None:
             raise Exception("This class is a singleton!")
         else:
@@ -66,7 +90,7 @@ class PrototypeSingleton:
             names = [self.features_names[i] for i in indices]
 
         while len(names) < 3:
-            names.append('None')
+            names.append("None")
         return names
 
     def setPipeline(self, params, space):
@@ -74,7 +98,11 @@ class PrototypeSingleton:
             self.parts.append(param)
 
         for part in self.parts:
-            self.PROTOTYPE[part] = [elem for elem in self.POOL[part] if (elem == None) or (elem.__class__.__name__ in space.keys())]
+            self.PROTOTYPE[part] = [
+                elem
+                for elem in self.POOL[part]
+                if (elem == None) or (elem.__class__.__name__ in space.keys())
+            ]
 
         self.DOMAIN_SPACE = generate_domain_space(self.PROTOTYPE, space)
 
@@ -88,24 +116,29 @@ class PrototypeSingleton:
         self.X = X
         self.y = y
 
+    def setDatasetIndex(self, index):
+        self.index = index.copy()
+
     def resetFeatures(self):
         self.current_numerical_features = self.original_numerical_features
         self.current_categorical_features = []
-        self.current_categorical_features.extend(
-            self.original_categorical_features)
+        self.current_categorical_features.extend(self.original_categorical_features)
 
     def applyColumnTransformer(self):
         len_numerical_features = len(self.current_numerical_features)
         len_categorical_features = len(self.current_categorical_features)
-        self.current_numerical_features = list(
-            range(0, len_numerical_features))
+        self.current_numerical_features = list(range(0, len_numerical_features))
         self.current_categorical_features = list(
-            range(len_numerical_features, len_categorical_features + len_numerical_features))
+            range(
+                len_numerical_features,
+                len_categorical_features + len_numerical_features,
+            )
+        )
 
     def applyFeaturesEngineering(self, indeces):
         # print(indeces)
-        #self.current_numerical_features = [i for i in self.current_numerical_features if indeces[i] == True]
-        #self.current_categorical_features = [i for i in self.current_categorical_features if indeces[i] == True]
+        # self.current_numerical_features = [i for i in self.current_numerical_features if indeces[i] == True]
+        # self.current_categorical_features = [i for i in self.current_categorical_features if indeces[i] == True]
         new_i = 0
         new_numerical_features, new_categorical_features = [], []
         for i in range(len(indeces)):

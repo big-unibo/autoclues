@@ -91,8 +91,8 @@ class AlgorithmTest(unittest.TestCase):
         )
 
     def _check_silhouette(self, dataset, transformed):
-        expected = KMeans().fit_predict(dataset)
-        got = KMeans().fit_predict(transformed)
+        expected = KMeans(random_state=42).fit_predict(dataset)
+        got = KMeans(random_state=42).fit_predict(transformed)
 
         if type(dataset) is not np.ndarray:
             dataset = dataset.toarray()

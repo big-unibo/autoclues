@@ -47,7 +47,7 @@ class Lasso(ClusteringFeatureSelector):
         for it in range(self.max_iterations):
             # Find clusters in the feature space, normalised by weights
             weighted_samples = feature_weights * x
-            labels = KMeans().fit_predict(weighted_samples)
+            labels = KMeans(random_state=42).fit_predict(weighted_samples)
 
             # Compute objective vector of the method
             objective = Lasso._calc_objective_vector(x, labels)
